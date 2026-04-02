@@ -1,0 +1,37 @@
+--2025-08-13 16:58:26--  https://github.com/tmux/tmux/releases/download/3.5/tmux-3.5.tar.gz
+正在解析主机 github.com (github.com)... 20.205.243.166
+正在连接 github.com (github.com)|20.205.243.166|:443... 失败：连接超时。
+重试中。
+
+--2025-08-13 17:00:38--  (尝试次数： 2)  https://github.com/tmux/tmux/releases/download/3.5/tmux-3.5.tar.gz
+正在连接 github.com (github.com)|20.205.243.166|:443... 失败：连接超时。
+重试中。
+
+--2025-08-13 17:02:50--  (尝试次数： 3)  https://github.com/tmux/tmux/releases/download/3.5/tmux-3.5.tar.gz
+正在连接 github.com (github.com)|20.205.243.166|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 302 Found
+位置：https://release-assets.githubusercontent.com/github-production-release-asset/36836475/72f9d37b-395c-4ac7-b2c7-88fc26d27a0e?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-08-13T09%3A46%3A31Z&rscd=attachment%3B+filename%3Dtmux-3.5.tar.gz&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-08-13T08%3A46%3A12Z&ske=2025-08-13T09%3A46%3A31Z&sks=b&skv=2018-11-09&sig=U695gip8GN%2FzA9HS4oshBQZ%2B5OWff5A1HO8g5h%2F1mQU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1NTA3NjEwMiwibmJmIjoxNzU1MDc1ODAyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.GJxpFvzy1jwU8OdHDldeLe0KDIeKRVFdzYfzGPXOwq8&response-content-disposition=attachment%3B%20filename%3Dtmux-3.5.tar.gz&response-content-type=application%2Foctet-stream [跟随至新的 URL]
+--2025-08-13 17:03:23--  https://release-assets.githubusercontent.com/github-production-release-asset/36836475/72f9d37b-395c-4ac7-b2c7-88fc26d27a0e?sp=r&sv=2018-11-09&sr=b&spr=https&se=2025-08-13T09%3A46%3A31Z&rscd=attachment%3B+filename%3Dtmux-3.5.tar.gz&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2025-08-13T08%3A46%3A12Z&ske=2025-08-13T09%3A46%3A31Z&sks=b&skv=2018-11-09&sig=U695gip8GN%2FzA9HS4oshBQZ%2B5OWff5A1HO8g5h%2F1mQU%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc1NTA3NjEwMiwibmJmIjoxNzU1MDc1ODAyLCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.GJxpFvzy1jwU8OdHDldeLe0KDIeKRVFdzYfzGPXOwq8&response-content-disposition=attachment%3B%20filename%3Dtmux-3.5.tar.gz&response-content-type=application%2Foctet-stream
+正在解析主机 release-assets.githubusercontent.com (release-assets.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.109.133, ...
+正在连接 release-assets.githubusercontent.com (release-assets.githubusercontent.com)|185.199.111.133|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 715322 (699K) [application/octet-stream]
+正在保存至: “tmux-3.5.tar.gz”
+
+     0K .......... .......... .......... .......... ..........  7%  189K 3s
+    50K .......... .......... .......... .......... .......... 14%  263K 3s
+   100K .......... .......... .......... .......... .......... 21%  904K 2s
+   150K .......... .......... .......... .......... .......... 28% 1.13M 1s
+   200K .......... .......... .......... .......... .......... 35%  402K 1s
+   250K .......... .......... .......... .......... .......... 42% 1.65M 1s
+   300K .......... .......... .......... .......... .......... 50% 1.92M 1s
+   350K .......... .......... .......... .......... .......... 57% 1.59M 1s
+   400K .......... .......... .......... .......... .......... 64% 2.17M 0s
+   450K .......... .......... .......... .......... .......... 71% 2.36M 0s
+   500K .......... .......... .......... .......... .......... 78%  532K 0s
+   550K .......... .......... .......... .......... .......... 85% 2.88M 0s
+   600K .......... .......... .......... .......... .......... 93% 2.98M 0s
+   650K .......... .......... .......... .......... ........  100% 3.59M=0.9s
+
+2025-08-13 17:03:24 (738 KB/s) - 已保存 “tmux-3.5.tar.gz” [715322/715322])
+
