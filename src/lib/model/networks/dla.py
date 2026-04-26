@@ -292,13 +292,6 @@ class DLA(nn.Module):
                         padding=3, bias=False),
                 nn.BatchNorm2d(channels[0], momentum=BN_MOMENTUM),
                 nn.ReLU(inplace=True))
-        # for m in self.modules():
-        #     if isinstance(m, nn.Conv2d):
-        #         n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-        #         m.weight.data.normal_(0, math.sqrt(2. / n))
-        #     elif isinstance(m, nn.BatchNorm2d):
-        #         m.weight.data.fill_(1)
-        #         m.bias.data.zero_()
 
     def _make_level(self, block, inplanes, planes, blocks, stride=1):
         downsample = None
@@ -383,7 +376,7 @@ class DLA(nn.Module):
         # self.fc = fc
 
 
-def dla34(pretrained=True, opt=None, **kwargs):  # DLA-34
+def dla34(pretrained=True, opt=None, **kwargs):  
     if opt.shortnet:
         model = DLA([1, 1, 1, 2, 2],
                     [16, 32, 64, 128, 256],
@@ -403,7 +396,7 @@ def dla34(pretrained=True, opt=None, **kwargs):  # DLA-34
         print('Warning: No ImageNet pretrain!!')
     return model
 
-def dla102(pretrained=None, **kwargs):  # DLA-102
+def dla102(pretrained=None, **kwargs):
     Bottleneck.expansion = 2
     model = DLA([1, 1, 1, 3, 4, 1], [16, 32, 128, 256, 512, 1024],
                 block=Bottleneck, residual_root=True, **kwargs)
@@ -412,7 +405,7 @@ def dla102(pretrained=None, **kwargs):  # DLA-102
             data='imagenet', name='dla102', hash='d94d9790')
     return model
 
-def dla46_c(pretrained=None, **kwargs):  # DLA-46-C
+def dla46_c(pretrained=None, **kwargs):  
     Bottleneck.expansion = 2
     model = DLA([1, 1, 1, 2, 2, 1],
                 [16, 32, 64, 64, 128, 256],
@@ -423,7 +416,7 @@ def dla46_c(pretrained=None, **kwargs):  # DLA-46-C
     return model
 
 
-def dla46x_c(pretrained=None, **kwargs):  # DLA-X-46-C
+def dla46x_c(pretrained=None, **kwargs): 
     BottleneckX.expansion = 2
     model = DLA([1, 1, 1, 2, 2, 1],
                 [16, 32, 64, 64, 128, 256],
@@ -434,7 +427,7 @@ def dla46x_c(pretrained=None, **kwargs):  # DLA-X-46-C
     return model
 
 
-def dla60x_c(pretrained=None, **kwargs):  # DLA-X-60-C
+def dla60x_c(pretrained=None, **kwargs): 
     BottleneckX.expansion = 2
     model = DLA([1, 1, 1, 2, 3, 1],
                 [16, 32, 64, 64, 128, 256],
@@ -445,7 +438,7 @@ def dla60x_c(pretrained=None, **kwargs):  # DLA-X-60-C
     return model
 
 
-def dla60(pretrained=None, **kwargs):  # DLA-60
+def dla60(pretrained=None, **kwargs):  
     Bottleneck.expansion = 2
     model = DLA([1, 1, 1, 2, 3, 1],
                 [16, 32, 128, 256, 512, 1024],
@@ -456,7 +449,7 @@ def dla60(pretrained=None, **kwargs):  # DLA-60
     return model
 
 
-def dla60x(pretrained=None, **kwargs):  # DLA-X-60
+def dla60x(pretrained=None, **kwargs):  
     BottleneckX.expansion = 2
     model = DLA([1, 1, 1, 2, 3, 1],
                 [16, 32, 128, 256, 512, 1024],
@@ -467,7 +460,7 @@ def dla60x(pretrained=None, **kwargs):  # DLA-X-60
     return model
 
 
-def dla102x(pretrained=None, **kwargs):  # DLA-X-102
+def dla102x(pretrained=None, **kwargs): 
     BottleneckX.expansion = 2
     model = DLA([1, 1, 1, 3, 4, 1], [16, 32, 128, 256, 512, 1024],
                 block=BottleneckX, residual_root=True, **kwargs)
@@ -477,7 +470,7 @@ def dla102x(pretrained=None, **kwargs):  # DLA-X-102
     return model
 
 
-def dla102x2(pretrained=None, **kwargs):  # DLA-X-102 64
+def dla102x2(pretrained=None, **kwargs): 
     BottleneckX.cardinality = 64
     model = DLA([1, 1, 1, 3, 4, 1], [16, 32, 128, 256, 512, 1024],
                 block=BottleneckX, residual_root=True, **kwargs)
@@ -487,7 +480,7 @@ def dla102x2(pretrained=None, **kwargs):  # DLA-X-102 64
     return model
 
 
-def dla169(pretrained=None, **kwargs):  # DLA-169
+def dla169(pretrained=None, **kwargs):  
     Bottleneck.expansion = 2
     model = DLA([1, 1, 2, 3, 5, 1], [16, 32, 128, 256, 512, 1024],
                 block=Bottleneck, residual_root=True, **kwargs)
@@ -666,9 +659,7 @@ class DLASeg(BaseModel):
         self.opt = opt
         self.node_type = DLA_NODE[opt.dla_node]
         print('Using node type:', self.node_type)
-        #==========
         self.last_stride = 4  # or self.opt.down_ratio
-        #==========
         self.first_level = int(np.log2(down_ratio)) if not self.opt.lowfeat else 1
         self.last_level = 5 if not self.opt.lowfeat else 3
         self.base = globals()['dla{}'.format(num_layers)](
@@ -689,14 +680,11 @@ class DLASeg(BaseModel):
         self.heat_att = None
         self.offset = None
 
-        # ===== 新增：Masked Channel Attention（基于 heatmap 的通道注意力） =====
-        # 仅当 opt.mask_enable=True 时启用（方便消融实验）
         if getattr(self.opt, 'mask_enable', False):
-            #feat_ch = last_channel   # 你的特征通道数
+            #feat_ch = last_channel   
             try:
                 feat_ch = channels[self.first_level]
             except Exception:
-                # 保底：若无法取到 channels 数组，使用 y[-1] 计算时再lazy init（不过初始注册最好在 __init__）
                 feat_ch = 64
             self.mask_att = MaskedChannelAttention(
                 channels=feat_ch,
@@ -705,6 +693,10 @@ class DLASeg(BaseModel):
                 sigma=getattr(self.opt, 'mask_sigma', 1.5),
                 detach_mask=getattr(self.opt, 'mask_detach'),
                 mask_adaptive=getattr(self.opt, 'mask_adaptive', False),
+                comp_temp=getattr(self.opt, 'mca_comp_temp', 2.5),
+                comp_bias=getattr(self.opt, 'mca_comp_bias', -0.40),
+                mca_base=getattr(self.opt, 'mca_base', 1.5),
+                mca_scale=getattr(self.opt, 'mca_scale', 0.5),
                 sigma_scale=getattr(self.opt, 'mask_sigma_scale', 0.6),
                 sigma_min=getattr(self.opt, 'mask_sigma_min', 1.0),
                 sigma_max=getattr(self.opt, 'mask_sigma_max', 20.0),
@@ -724,18 +716,15 @@ class DLASeg(BaseModel):
         if self.opt.inference_train:
             for i in range(len(y)):
                 y[i] = y[i].detach()
-        # ===== NEW: 缓存“当前帧”特征，供 UPM 使用 =====
         try:
             if getattr(self.opt, 'upm', False):
                 self.last_feat_curr = y[-1].detach() if getattr(self.opt, 'upm_detach_feat', 1) else y[-1]
-                # 可选：首帧没有上一帧
                 self.last_feat_prev = None
                 if getattr(self.opt, 'mask_debug', False) and not hasattr(self, '_upm_flag_curr'):
                     print(f'[UPM] cache last_feat_curr: {tuple(self.last_feat_curr.shape)}', flush=True)
                     self._upm_flag_curr = True
         except Exception:
             pass
-        # ======================================
         return [y[-1]]
 
 
