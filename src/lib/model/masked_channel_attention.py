@@ -38,8 +38,8 @@ class MaskedChannelAttention(nn.Module):
         comp_temp=2.5,
         comp_bias=-0.40,
         gate_pow=2.0,
-        mc_min=1.5,
-        mc_max=2.0,
+        mca_base=1.5,
+        mca_scale=0.5,
     ):
         super().__init__()
         self.channels = int(channels)
@@ -53,15 +53,11 @@ class MaskedChannelAttention(nn.Module):
         self.sigma_min = float(sigma_min)
         self.sigma_max = float(sigma_max)
         self.soft_radius = float(soft_radius)
-        self.comp_temp = float(comp_temp)
-        self.comp_bias = float(comp_bias)
         self.gate_pow = float(gate_pow)
-        self.mc_min = float(mc_min)
-        self.mc_max = float(mc_max)
-
-        if self.mc_max < self.mc_min:
-            raise ValueError('mc_max must be greater than or equal to mc_min')
-
+        self.comp_temp = nn.Parameter(torch.tensor(float(comp_temp), dtype=torch.float32))
+        self.comp_bias = nn.Parameter(torch.tensor(float(comp_bias), dtype=torch.float32))
+        self.mca_base = nn.Parameter(torch.tensor(float(mca_base), dtype=torch.float32))
+        self.mca_scale = nn.Parameter(torch.tensor(float(mca_scale), dtype=torch.float32))
         mid_c = max(1, self.channels // self.reduction)
         self.mlp = nn.Sequential(
             nn.Linear(self.channels, mid_c, bias=True),
@@ -149,9 +145,8 @@ class MaskedChannelAttention(nn.Module):
         z = z - z.mean(dim=1, keepdim=True)
         s = torch.sigmoid(self.comp_temp * z + self.comp_bias).view(B, C, 1, 1)
 
-        Mc_gauss = (self.mc_min + (self.mc_max - self.mc_min) * s).clamp(
-            min=self.mc_min, max=self.mc_max
-        )
+        Mc_gauss = (self.mca_base + self.mca_scale * s)
+        Mc_gauss = Mc_gauss.clamp(min=1.0, max=3.0)
         Ft_enh = Ft * Mc_gauss
 
         return Ft_enh, Mc_gauss
