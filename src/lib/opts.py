@@ -304,16 +304,12 @@ class opts(object):
             help='maximum sigma in pixels on the heatmap.')
         self.parser.add_argument('--mask_soft_radius', type=float, default=1.0,#1.0
             help='extra smooth radius (additive) to avoid overly peaky masks for tiny boxes.')
-        self.parser.add_argument('--mask_comp_temp', type=float, default=2.5,
-            help='temperature for masked channel attention sigmoid compression.')
-        self.parser.add_argument('--mask_comp_bias', type=float, default=-0.40,
-            help='bias for masked channel attention sigmoid compression.')
+        self.parser.add_argument('--mca_comp_temp', type=float, default=2.5, help='Adaptive temperature for channel competition')
+        self.parser.add_argument('--mca_comp_bias', type=float, default=-0.40, help='Adaptive sparsity bias for channel competition')
         self.parser.add_argument('--mask_gate_pow', type=float, default=2.0,
             help='power applied to the normalized gaussian mask before feature pooling.')
-        self.parser.add_argument('--mask_scale_min', type=float, default=1.5,
-            help='minimum channel scaling factor for masked channel attention.')
-        self.parser.add_argument('--mask_scale_max', type=float, default=2.0,
-            help='maximum channel scaling factor for masked channel attention.')
+        self.parser.add_argument('--mca_base', type=float, default=1.5, help='Adaptive base residual scale for MCA')
+        self.parser.add_argument('--mca_scale', type=float, default=0.5, help='Adaptive scale multiplier for MCA')
         self.parser.add_argument('--upm', action='store_true', help='enable uncertainty displacement module')
         self.parser.add_argument('--upm_loss_w', type=float, default=1.0)
         self.parser.add_argument('--upm_template', type=int, default=7)
